@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,11 +19,10 @@ const Navigation = () => {
   }, []);
 
   const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#services", label: "Services" },
-    { href: "#why-us", label: "Why Us" },
-    { href: "#work", label: "Work" },
-    { href: "#contact", label: "Contact" },
+    { href: "/about", label: "About" },
+    { href: "/services", label: "Services" },
+    { href: "/work", label: "Work" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -37,29 +39,31 @@ const Navigation = () => {
       <div className="container-max section-padding">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
-            <span className="text-2xl font-display font-bold text-foreground">
-              Pixel Growth
-            </span>
-          </a>
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logo} alt="Pixel Growth" className="h-12 w-auto" />
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-text-body hover:text-foreground transition-colors duration-200 link-underline"
+                to={link.href}
+                className={`text-sm font-medium transition-colors duration-200 link-underline ${
+                  location.pathname === link.href
+                    ? "text-foreground"
+                    : "text-text-body hover:text-foreground"
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button variant="hero" size="lg" asChild>
-              <a href="#contact">Get Started</a>
+              <Link to="/contact">Get Started</Link>
             </Button>
           </div>
 
@@ -83,17 +87,19 @@ const Navigation = () => {
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-lg font-medium text-text-body hover:text-foreground transition-colors py-2"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <Button variant="hero" size="lg" className="mt-4" asChild>
-                <a href="#contact">Get Started</a>
+                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  Get Started
+                </Link>
               </Button>
             </div>
           </motion.div>

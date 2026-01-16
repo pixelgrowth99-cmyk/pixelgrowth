@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,9 +16,9 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-xl font-display font-bold text-primary-foreground">
-              Pixel Growth
-            </span>
+            <Link to="/">
+              <img src={logo} alt="Pixel Growth" className="h-10 w-auto" />
+            </Link>
           </motion.div>
 
           {/* Links */}
@@ -27,14 +29,19 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center gap-8"
           >
-            {["About", "Services", "Work", "Contact"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
+            {[
+              { label: "About", href: "/about" },
+              { label: "Services", href: "/services" },
+              { label: "Work", href: "/work" },
+              { label: "Contact", href: "/contact" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
                 className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200"
               >
-                {link}
-              </a>
+                {link.label}
+              </Link>
             ))}
           </motion.div>
 
